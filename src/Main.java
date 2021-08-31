@@ -222,11 +222,11 @@ public class Main {
     public static void main(String[] args) {
         createDatabase(args);
         addListing(args);
-        populateListing(args);
-        populateReview(args);
+//        populateListing(args);
+//        populateReview(args);
         addReview(args);
-        dropReview(args);
-        dropListing(args);
-        dropDatabase(args);
+//        dropReview(args);
+//        dropListing(args);
+//        dropDatabase(args);
     }
 }
