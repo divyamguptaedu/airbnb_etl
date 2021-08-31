@@ -225,8 +225,48 @@ public class Main {
 //        populateListing(args);
 //        populateReview(args);
         addReview(args);
-//        dropReview(args);
-//        dropListing(args);
-//        dropDatabase(args);
+        dropReview(args);
+        dropListing(args);
+        dropDatabase(args);
     }
+
+    // RUN QUERIES ON TERMINAL
+
+        //    -- Order listing data by host's number of listings in descending order
+        //    SELECT id, name, host_listings_count FROM listing
+        //    ORDER BY host_listings_count DESC;
+        //
+        //-- Order listing data by number of beds in the accommodation in descending order
+        //    SELECT id, name, beds FROM listing
+        //    ORDER BY beds DESC;
+        //
+        //-- Give top 5 listings arranged by number of beds, bedrooms, and bathrooms in the accommodation in descending order
+        //    SELECT id, name, beds, bedrooms, bathrooms FROM listing
+        //    ORDER BY beds DESC, bedrooms DESC, bathrooms DESC
+        //    LiMIT 5;
+        //
+        //-- Give the 5 most reviewed hosts with minimum beds
+        //    SELECT id, name, number_of_reviews, beds FROM listing
+        //    ORDER BY number_of_reviews DESC, bedrooms ASC
+        //    LiMIT 5;
+        //
+        //-- Compute how many of the hosts came on-board AirBnb after 2007 who have more than 5 beds
+        //    SELECT COUNT(id)
+        //    FROM listing
+        //    WHERE host_since > 2008-01-01 AND beds > 5;
+        //
+        //-- Compute the average of all the available accommodates in the listings
+        //    SELECT AVG(accommodates)
+        //    FROM listing
+        //    WHERE has_availability = 'T';
+        //
+        //-- Give all those listings which have apartment type accommodations;
+        //    SELECT id, name FROM listing
+        //    WHERE name LIKE '% Apartment%';
+        //
+        //-- Give all the dates when each listing was reviewed
+        //    SELECT listing.id, listing.name, listing.host_since, review.date
+        //    FROM listing
+        //    JOIN review
+        //    ON listing.id = review.listing_id;
 }
