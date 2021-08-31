@@ -1,7 +1,12 @@
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.nio.charset.*;
 
 public class Main {
 
@@ -45,8 +50,8 @@ public class Main {
                     " host_location VARCHAR(50), " +
                     " host_about VARCHAR(500), " +
                     " host_response_time VARCHAR(50), " +
-                    " host_response_rate INTEGER, " +
-                    " host_acceptance_rate INTEGER, " +
+                    " host_response_rate VARCHAR(4), " +
+                    " host_acceptance_rate VARCHAR(4), " +
                     " host_is_superhost VARCHAR(1), " +
                     " host_thumbnail_url VARCHAR(500), " +
                     " host_picture_url VARCHAR(500), " +
@@ -69,7 +74,7 @@ public class Main {
                     " bedrooms INTEGER, " +
                     " beds INTEGER, " +
                     " amenities VARCHAR(500), " +
-                    " price INTEGER, " +
+                    " price VARCHAR(10), " +
                     " minimum_nights INTEGER, " +
                     " maximum_nights INTEGER, " +
                     " minimum_minimum_nights INTEGER, " +
@@ -134,7 +139,7 @@ public class Main {
             // add listing table
             String createReview = "CREATE TABLE review " +
                     "(listing_id INTEGER, " +
-                    " id INTEGER, " +
+                    " id VARCHAR(100), " +
                     " date DATE, " +
                     " reviewer_id INTEGER, " +
                     " reviewer_name VARCHAR(20), " +
@@ -175,25 +180,50 @@ public class Main {
         }
     }
 
-//    public static void populateListing(String[] args) {
-//        DB_URL = "jdbc:mysql://localhost/airbnb";
-//        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-//             Statement statement = conn.createStatement()
-//        ) {
-//            // add listing table
-//            String populateListing = "BULK INSERT listing " +
-//                    "FROM 'Users/divyamgupta/Documents/georgia_tech/airbnb_etl/resources/listings.csv'" +
-//                    "WITH (FORMAT = 'CSV', FIRSTROW = 2, FIELDTERMINATOR = ',', ROWTERMINATOR = '/n')";
-//            statement.executeUpdate(populateListing);
-//            System.out.println("Listing table populated successfully.");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public static void populateListing(String[] args) {
+        DB_URL = "jdbc:mysql://localhost/airbnb";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+             Statement statement = conn.createStatement()
+        ) {
+            // add listing table
+            String populateListing = "LOAD DATA LOCAL INFILE '/Users/divyamgupta/Documents/georgia_tech/airbnb_etl/resources/listing.csv' " +
+                    "INTO TABLE listing " +
+                    "FIELDS TERMINATED BY ',' " +
+                    "ENCLOSED BY '\"' " +
+                    "LINES TERMINATED BY '\\n' " +
+                    "IGNORE 1 ROWS";
+            statement.executeUpdate(populateListing);
+            System.out.println("Listing table populated successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void populateReview(String[] args) {
+        DB_URL = "jdbc:mysql://localhost/airbnb";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+             Statement statement = conn.createStatement()
+        ) {
+            // add listing table
+            String populateReview = "LOAD DATA LOCAL INFILE '/Users/divyamgupta/Documents/georgia_tech/airbnb_etl/resources/review.csv' " +
+                    "INTO TABLE review " +
+                    "FIELDS TERMINATED BY ',' " +
+                    "ENCLOSED BY '\"' " +
+                    "LINES TERMINATED BY '\\n' " +
+                    "IGNORE 1 ROWS";
+            statement.executeUpdate(populateReview);
+            System.out.println("Review table populated successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void main(String[] args) {
         createDatabase(args);
         addListing(args);
+        populateListing(args);
+        populateReview(args);
         addReview(args);
         dropReview(args);
         dropListing(args);
